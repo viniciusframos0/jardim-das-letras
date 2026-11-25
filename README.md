@@ -4,7 +4,7 @@ Dever de casa de Língua Portuguesa (2º ano, 1º dia – poema *Leilão de Jard
 
 **Jogos:**
 - Jardim das Letras (Português): https://viniciusframos0.github.io/jardim-das-letras/
-- Pomar dos Números (Matemática, simulado SAEB): https://viniciusframos0.github.io/jardim-das-letras/pomar/
+- Pomar dos Números (Matemática, simulado SisPAE): https://viniciusframos0.github.io/jardim-das-letras/pomar/
 
 - Trilha com 6 fases: o poema, primeira letra, última letra, contar letras, letras gêmeas e cestas de palavras
 - Leitura em voz alta das perguntas (🔊)
