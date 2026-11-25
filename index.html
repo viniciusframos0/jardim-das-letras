@@ -173,6 +173,16 @@ const LEVELS = [
    qs:[3,4,7,9].map(n=>({t:"basket", n}))}
 ];
 
+// ---------- contador de acessos (GoatCounter: sem cookies, sem dados pessoais) ----------
+const GOAT = "jardimdasletras";
+const JOGO = "jardim";
+(function(){ if(!GOAT) return; try{ const s=document.createElement("script"); s.async=true; s.src="https://gc.zgo.at/count.js"; s.dataset.goatcounter=`https://${GOAT}.goatcounter.com/count`; document.head.appendChild(s); }catch(e){} })();
+const _fila=[];
+function track(evento){
+  const ev={path:`${JOGO}/${evento}`, title:evento, event:true};
+  try{ if(window.goatcounter && window.goatcounter.count){ while(_fila.length) window.goatcounter.count(_fila.shift()); window.goatcounter.count(ev); } else _fila.push(ev); }catch(e){}
+}
+
 // ---------- estado salvo ----------
 const KEY="jardim-letras-v1";
 let save={stars:{}};
@@ -256,7 +266,7 @@ function confirmReset(){
 
 // ---------- tela: lição ----------
 let L, qi, mistakes, levelIdx;
-function startLevel(i){ levelIdx=i; L=LEVELS[i]; qi=0; mistakes=0; intro(); }
+function startLevel(i){ levelIdx=i; L=LEVELS[i]; qi=0; mistakes=0; track(`fase-inicio/${L.id}`); intro(); }
 function lessonFrame(){
   $app.innerHTML="";
   const bar=h(`<div class="lbar"><button class="x" aria-label="Sair">✕</button><div class="prog"><i></i></div><div class="pill">${L.icon}</div></div>`);
@@ -408,6 +418,7 @@ function finishLevel(){
   hideFb();
   const st = mistakes===0?3:mistakes<=2?2:1;
   save.stars[L.id]=Math.max(save.stars[L.id]||0, st); persist();
+  track(`fase-fim/${L.id}/${st}-estrelas`);
   const w=lessonFrame(); document.querySelector(".prog i").style.width="100%";
   const msg = st===3?"Uau! Sem nenhum erro!":st===2?"Muito bom! Você é fera!":"Você conseguiu! Cada vez fica mais fácil.";
   w.appendChild(h(`<div class="center"><div class="trophy">🌻</div><h2 style="font-size:2rem">Flor completa!</h2><div class="bigstars">${"⭐".repeat(st)}${"☆".repeat(3-st)}</div><p class="bubble" style="flex:none">${msg}</p></div>`));
@@ -420,6 +431,7 @@ function finishLevel(){
 
 // ---------- tela: respostas para copiar na folha ----------
 function showSummary(){
+  track("jogo-completo");
   hideFb();
   $app.innerHTML="";
   const back=h(`<div class="lbar"><button class="x" aria-label="Voltar">←</button><h2 style="font-size:1.5rem">Hora de copiar na folha!</h2></div>`);
